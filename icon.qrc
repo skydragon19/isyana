@@ -1,0 +1,12 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>icon/800x600_Vertikal.png</file>
+        <file>icon/800x600_Horizontal.png</file>
+        <file>icon/stop.png</file>
+        <file>icon/play.png</file>
+        <file>icon/reset.png</file>
+        <file>icon/port.png</file>
+        <file>icon/port_closed.png</file>
+        <file>icon/setting.png</file>
+    </qresource>
+</RCC>
