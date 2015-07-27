@@ -12,7 +12,7 @@ form_setting_kanal::form_setting_kanal(QWidget *parent, QSerialPort *port) :
     this->ui->t_kanal->setHorizontalHeaderItem(2, new QTableWidgetItem(QString("Status")));
     this->ui->t_kanal->setHorizontalHeaderItem(3, new QTableWidgetItem(QString("Satuan")));
 
-    this->ui->t_kanal->setRowCount(10);
+    this->ui->t_kanal->setRowCount(NUM_KANAL);
     this->ui->t_kanal->verticalHeader()->setHidden(true);
 
     this->ui->t_kanal->setColumnWidth(2, 140);

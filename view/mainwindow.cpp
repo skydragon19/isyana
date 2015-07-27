@@ -6,6 +6,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->setWindowTitle("Monita Flow Monitoring");
 
     logs = new log();
     logs->print(this->ui->plainTextEdit, "Monita Flow Comp .. Start");
@@ -107,6 +108,7 @@ void MainWindow::request_to_santer(){
 
 void MainWindow::read_port(){
     string_dat.sprintf("%s%s", string_dat.toLocal8Bit().data(), port->readAll().data());
+    qDebug() << string_dat.toLocal8Bit().data();
 }
 
 void MainWindow::print_value()
@@ -155,7 +157,7 @@ void MainWindow::on_pb_reset_clicked()
     /* reset all */
     QString str;
     for (int i = 0; i < NUM_KANAL; i++){
-        str.sprintf("set_mem %d 0\r", i+1);
+        str.sprintf("set_mem %d 0\r\n", i+1);
         port->write(str.toLocal8Bit().data());
         sleep(0.2);
     }
@@ -185,9 +187,12 @@ void MainWindow::on_actionPort_open_triggered()
         open = true;
 
         this->ui->actionStart_monitoring->setEnabled(true);
+        this->ui->actionPort_set->setDisabled(true);
     }
     else{
-        tim->stop();
+        if (tim->isActive()){
+            tim->stop();
+        }
         port->close();
 
         logs->print(this->ui->plainTextEdit, "Port serial closed!");
@@ -198,6 +203,8 @@ void MainWindow::on_actionPort_open_triggered()
         open = false;
 
         this->ui->actionStart_monitoring->setDisabled(true);
+        this->ui->actionPort_set->setEnabled(true);
+        this->ui->pb_reset->setDisabled(true);
     }
 }
 
@@ -223,15 +230,20 @@ void MainWindow::on_actionPort_set_triggered()
     else{
         port_process->set_setting_value(fport, skom);
 
-        tim->stop();
-        port->close();
+        if (port->isOpen()){
+            if (tim->isActive()){
+                tim->stop();
+            }
 
-        ser_process->set_serial_port(port, skom);
+            port->close();
 
-        port->setFlowControl(QSerialPort::NoFlowControl);
-        port->open(QIODevice::ReadWrite);
+            ser_process->set_serial_port(port, skom);
 
-        tim->start(1000);
+            port->setFlowControl(QSerialPort::NoFlowControl);
+            port->open(QIODevice::ReadWrite);
+
+            tim->start(1000);
+        }
     }
 }
 

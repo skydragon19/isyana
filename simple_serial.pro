@@ -8,8 +8,9 @@ QT       += core gui serialport
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = simple_serial
+TARGET   = simple_serial
 TEMPLATE = app
+CONFIG   += staticlib
 
 MOC_DIR        = compile
 OBJECTS_DIR    = compile
